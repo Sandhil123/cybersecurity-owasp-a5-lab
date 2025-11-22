@@ -1,22 +1,27 @@
-Cybersecurity Home Lab — OWASP A5 Security Misconfiguration
+🌐 Cybersecurity Home Lab
+OWASP A5 — Security Misconfiguration Assessment
 
-This project demonstrates a simple cybersecurity home lab built using VirtualBox, with the goal of identifying and testing OWASP A5: Security Misconfiguration vulnerabilities.
+This project demonstrates a simple cybersecurity home lab built using VirtualBox, focusing on identifying and testing OWASP A5: Security Misconfiguration vulnerabilities on Metasploitable2.
 
-Lab Setup
+🛠 Lab Setup
 
-Kali Linux – attacker machine
+Virtual Machines Used
 
-Metasploitable2 – intentionally vulnerable target
+Kali Linux — attacker
 
-Ubuntu – normal host
+Metasploitable2 — vulnerable machine
 
-Network mode: Internal Network (labnet)
+Ubuntu — normal host
 
-Verified connectivity using ping and Nmap host discovery.
+Network
 
-What I Tested
+Internal Network: labnet
 
-Using Kali Linux, I scanned Metasploitable2 and found several misconfigurations, including:
+Verified using ping and Nmap host discovery
+
+🔍 What I Tested
+
+Using Kali Linux, I scanned Metasploitable2 and discovered several misconfigurations:
 
 FTP anonymous login enabled
 
@@ -28,46 +33,34 @@ Apache Tomcat default page exposed
 
 SMB information leakage
 
-What I Exploited
+These represent common weaknesses under OWASP A5: Security Misconfiguration.
 
-I performed three simple offensive tests:
+⚔️ What I Exploited
 
-Logged into FTP using anonymous access
+I performed three offensive tests to demonstrate real-world impact:
 
-Accessed Metasploitable2 over Telnet using default credentials
+✔ 1. FTP Anonymous Login
 
-Viewed Tomcat default management interface leak
+Gained directory access using the anonymous account.
 
-These were done to show how misconfigurations allow easy system compromise.
+✔ 2. Telnet Default Credentials
 
-What I Learned
+Logged in using default credentials (msfadmin/msfadmin) and obtained a shell.
 
-This lab helped me understand:
+✔ 3. Tomcat Default Interface Exposure
 
-How misconfigurations open the door for attackers
+Viewed Tomcat’s default management page leaking version and admin paths.
 
-How to scan systems using Nmap
+📘 What I Learned
 
-How basic network services can be exploited
+This home lab helped me understand:
 
-How to safely test vulnerabilities in a controlled environment
+How attackers exploit misconfigurations
 
-The importance of hardening and updating systems
+How to use Nmap for scanning and service enumeration
 
-Fix Recommendations
+How outdated or improperly configured services become attack vectors
 
-Disable anonymous FTP
+How to safely perform exploitation in a controlled environment
 
-Remove Telnet
-
-Update SSH
-
-Restrict SMB
-
-Harden Tomcat
-
-Use strong passwords
-
-Apply updates and patches regularly
-
-Full Report
+Why proper system hardening is essential in real deployments
