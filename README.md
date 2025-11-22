@@ -1,31 +1,31 @@
 🌐 Cybersecurity Home Lab
-OWASP A5 — Security Misconfiguration Assessment
+OWASP A5 Security Misconfiguration Assessment
 
-This project demonstrates a simple cybersecurity home lab built using VirtualBox, focusing on identifying and testing OWASP A5: Security Misconfiguration vulnerabilities on Metasploitable2.
+This project shows how I built a cybersecurity home lab using VirtualBox to identify and test OWASP A5 Security Misconfiguration vulnerabilities on Metasploitable2.
 
-🛠 Lab Setup
+Lab Setup
 
-Virtual Machines Used
+Virtual Machines
 
-Kali Linux — attacker
+Kali Linux (attacker)
 
-Metasploitable2 — vulnerable machine
+Metasploitable2 (vulnerable machine)
 
-Ubuntu — normal host
+Ubuntu (normal host)
 
 Network
 
 Internal Network: labnet
 
-Verified using ping and Nmap host discovery
+Verified using ping tests and Nmap host discovery
 
-🔍 What I Tested
+What I Tested
 
-Using Kali Linux, I scanned Metasploitable2 and discovered several misconfigurations:
+Using Kali Linux, I scanned Metasploitable2 and found several misconfigurations:
 
-FTP anonymous login enabled
+FTP anonymous login allowed
 
-Telnet service active with default credentials
+Telnet active with default credentials
 
 Outdated OpenSSH version
 
@@ -33,34 +33,43 @@ Apache Tomcat default page exposed
 
 SMB information leakage
 
-These represent common weaknesses under OWASP A5: Security Misconfiguration.
+What I Exploited
+1. FTP Anonymous Login
 
-⚔️ What I Exploited
+Logged into the FTP service using the anonymous account.
 
-I performed three offensive tests to demonstrate real-world impact:
+2. Telnet Default Credentials
 
-✔ 1. FTP Anonymous Login
+Logged in using the default credentials msfadmin/msfadmin and gained shell access.
 
-Gained directory access using the anonymous account.
+3. Tomcat Default Interface Exposure
 
-✔ 2. Telnet Default Credentials
+Viewed the Tomcat default page which exposed version and admin path information.
 
-Logged in using default credentials (msfadmin/msfadmin) and obtained a shell.
+What I Learned
 
-✔ 3. Tomcat Default Interface Exposure
-
-Viewed Tomcat’s default management page leaking version and admin paths.
-
-📘 What I Learned
-
-This home lab helped me understand:
+This lab helped me understand:
 
 How attackers exploit misconfigurations
 
-How to use Nmap for scanning and service enumeration
+How to use Nmap for scanning and enumeration
 
-How outdated or improperly configured services become attack vectors
+How weak or outdated services can be compromised
 
 How to safely perform exploitation in a controlled environment
 
-Why proper system hardening is essential in real deployments
+Why system hardening and patching are important
+
+Recommendations
+
+Disable anonymous FTP
+
+Remove Telnet and use SSH
+
+Update OpenSSH
+
+Disable or restrict SMB
+
+Remove Tomcat default applications
+
+Use strong passwords and keep services updated
