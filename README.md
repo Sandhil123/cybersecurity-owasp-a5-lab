@@ -1,75 +1,92 @@
-🌐 Cybersecurity Home Lab
-OWASP A5 Security Misconfiguration Assessment
+# Cybersecurity Home Lab  
+## OWASP A5 Security Misconfiguration Assessment
 
-This project shows how I built a cybersecurity home lab using VirtualBox to identify and test OWASP A5 Security Misconfiguration vulnerabilities on Metasploitable2.
+This project shows how I built a small cybersecurity home lab using VirtualBox. I used Kali Linux to scan and test Metasploitable2 for OWASP A5 Security Misconfigurations. Ubuntu was used as a normal machine for network testing.
 
-Lab Setup
+# Lab Setup
 
-Virtual Machines
+## Virtual Machines
+- Kali Linux (attacker machine)
+- Metasploitable2 (vulnerable machine)
+- Ubuntu (normal host)
 
-Kali Linux (attacker)
+## Network
+- Network type: Internal Network  
+- Network name: labnet  
+- Basic connectivity test:
+```
+ping 192.168.100.x
+```
 
-Metasploitable2 (vulnerable machine)
+- Host discovery:
+```
+sudo nmap -sn 192.168.100.0/24
+```
 
-Ubuntu (normal host)
+# Misconfigurations Found (OWASP A5)
 
-Network
+## 1. FTP Anonymous Login
+The FTP service allowed anonymous login without a password.
+```
+ftp 192.168.100.20
+Username: anonymous
+Password: (press Enter)
+```
 
-Internal Network: labnet
+## 2. Telnet Enabled with Default Credentials
+Telnet is insecure and uses plain text login. The default credentials worked.
+```
+telnet 192.168.100.20
+msfadmin
+msfadmin
+```
 
-Verified using ping tests and Nmap host discovery
+## 3. Outdated OpenSSH Version
+An old version of OpenSSH was running on the target.
+```
+nmap -A 192.168.100.20
+```
 
-What I Tested
+## 4. Apache Tomcat Default Page Exposed
+The Tomcat service on port 8180 exposed its default page.
+```
+http://192.168.100.20:8180
+```
 
-Using Kali Linux, I scanned Metasploitable2 and found several misconfigurations:
+## 5. Samba Misconfigurations
+SMB services were running with possible vulnerabilities.
+```
+sudo nmap --script smb-vuln* -p 139,445 192.168.100.20
+```
 
-FTP anonymous login allowed
+# Exploitation Steps
 
-Telnet active with default credentials
+## FTP Anonymous Login
+```
+ftp 192.168.100.20
+ls
+```
 
-Outdated OpenSSH version
+## Telnet Access
+```
+telnet 192.168.100.20
+msfadmin / msfadmin
+```
 
-Apache Tomcat default page exposed
+## Service Enumeration
+```
+sudo nmap -A -T4 192.168.100.20
+```
 
-SMB information leakage
+# What I Learned
 
-What I Exploited
-1. FTP Anonymous Login
+- How to set up an isolated lab in VirtualBox  
+- How to scan a machine using Nmap  
+- How to identify misconfigurations  
+- How insecure services like Telnet and anonymous FTP can be abused  
+- The importance of system patching and disabling unused services  
 
-Logged into the FTP service using the anonymous account.
 
-2. Telnet Default Credentials
 
-Logged in using the default credentials msfadmin/msfadmin and gained shell access.
+Check out my portfolio website: [www.sandhildesilva.com](https://www.sandhildesilva.com)
 
-3. Tomcat Default Interface Exposure
-
-Viewed the Tomcat default page which exposed version and admin path information.
-
-What I Learned
-
-This lab helped me understand:
-
-How attackers exploit misconfigurations
-
-How to use Nmap for scanning and enumeration
-
-How weak or outdated services can be compromised
-
-How to safely perform exploitation in a controlled environment
-
-Why system hardening and patching are important
-
-Recommendations
-
-Disable anonymous FTP
-
-Remove Telnet and use SSH
-
-Update OpenSSH
-
-Disable or restrict SMB
-
-Remove Tomcat default applications
-
-Use strong passwords and keep services updated
